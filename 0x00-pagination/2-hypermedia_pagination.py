@@ -5,15 +5,6 @@ import math
 from typing import List
 
 
-def index_range(page, page_size):
-    """
-    Function to calculate the start and end index for pagination
-    """
-    start = (page - 1) * page_size
-    end = page * page_size
-    return start, end
-
-
 class Server:
     """Server class to paginate a database of popular baby names.
     """
@@ -52,3 +43,12 @@ class Server:
             "prev_page": page - 1 if page > 1 else None,
             "total_pages": total_pages,
         }
+
+
+def index_range(page, page_size):
+    """
+    Function to calculate the start and end index for pagination
+    """
+    start = (page - 1) * page_size
+    end = page * page_size
+    return start, end
