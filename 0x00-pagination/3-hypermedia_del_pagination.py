@@ -47,8 +47,11 @@ class Server:
         data = []
         next_index = index
         for _ in range(page_size):
-            while next_index < dataset_size and indexed_data.get(next_index) is None:
-                next_index += 1
+            while next_index < dataset_size:
+                if indexed_data.get(next_index) is None:
+                    next_index += 1
+                else:
+                    break
             if next_index < dataset_size:
                 data.append(indexed_data[next_index])
                 next_index += 1
