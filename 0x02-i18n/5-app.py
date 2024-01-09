@@ -31,6 +31,7 @@ app.config.from_object('5-app.Config')
 
 
 def get_user():
+    """returns a user or none"""
     user_id = request.args.get('login_as')
     if user_id and int(user_id) in users:
         return users[int(user_id)]
@@ -39,11 +40,13 @@ def get_user():
 
 @app.before_request
 def before_request():
+    """function before request"""
     g.user = get_user()
 
 
 @app.route('/')
 def index():
+    """output templates"""
     return render_template('5-index.html')
 
 
