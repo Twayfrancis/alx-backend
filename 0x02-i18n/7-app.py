@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-'''
-Basic Flask app and Babel setup, Get Locale from request
-Parameterized templates, Force locale with URL parameter
-'''
+''' Basic Flask app and Babel setup, Get Locale from request
+Parameterized templates, Force locale with URL parameter '''
 
 from typing import Union
 from flask import Flask, render_template, request, g
 from os import getenv
 from flask_babel import Babel
+from pytz import timezone
 
 app = Flask(__name__)
 babel = Babel(app)
@@ -28,7 +27,7 @@ class Config:
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
-app.config.from_object('6-app.Config')
+app.config.from_object('7-app.Config')
 
 
 @app.before_request
@@ -49,7 +48,7 @@ def get_locale() -> str:
 @app.route("/", methods=["GET"], strict_slashes=False)
 def hello_world() -> str:
     ''' Output templates '''
-    return render_template('6-index.html')
+    return render_template('7-index.html')
 
 
 def get_user() -> Union[dict, None]:
@@ -60,6 +59,14 @@ def get_user() -> Union[dict, None]:
             return users.get(user)
     else:
         return None
+
+
+@babel.timezoneselector
+def get_timezone():
+    ''' Infer appropriate timezone '''
+    user = getattr(g, 'locale', None)
+    if user is not None:
+        return user.timezone
 
 
 if __name__ == '__main__':
